@@ -328,6 +328,7 @@ Let's look at the [venn diagram](http://www.sql-join.com/sql-join-types) to see 
 pills_population_left <- county_pills_per_year %>%
   left_join(county_population_per_year, by="countyfips")
 
+
 ```
 
 There's also a Right Join, which is the exact opposite of a Left Join.  
