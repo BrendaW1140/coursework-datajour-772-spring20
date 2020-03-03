@@ -117,8 +117,8 @@ Now that the data is in, spend some time examining it to get a sense of it using
 
 ``` {r}
 
- pharmacy_location_totals <- buyer_addresses %>%
-  left_join(buyer_annual_by_year, by="buyer_dea_no") %>%
+ #pharmacy_location_totals <- buyer_addresses %>%
+  #left_join(buyer_annual_by_year, by="buyer_dea_no") %>%
 
 #VA Consolidated - This is a by-mail pharmacy run by the Veterans Administration. I would be interested in looking into the government oversight of said establishments.
 
@@ -130,10 +130,10 @@ Now that the data is in, spend some time examining it to get a sense of it using
 
 practitioner_totals <- buyer_addresses %>%
   inner_join(buyer_annual_by_year, by="buyer_dea_no") %>%
-    filter(buyer_bus_act == "PRACTITIONER") %>%
-    filter(buyer_state == "MD") %>%
+    filter(buyer_bus_act.x == "PRACTITIONER") %>%
+    filter(buyer_state.x == "MD") %>%
     filter(year == 2010) %>%
-    arrange(desc(total_pills)) 
+    arrange(desc(dosage_unit)) 
 
 ```
 
@@ -142,8 +142,8 @@ practitioner_totals <- buyer_addresses %>%
 
 practitioner_totals %>%
   group_by(buyer_name) %>%
-  summarise(total_pills) %>%
-  arrange(desc(totals_pills))
+  summarise(dosage_unit = sum(dosage_unit)) %>%
+  arrange(desc(dosage_unit))
 ```
 
 **Task**: Which state had the highest rate of total pills per person sent to it over the 2006 to 2012 period?
