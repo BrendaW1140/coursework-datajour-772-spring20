@@ -73,7 +73,7 @@ We're loading three packages today: the Tidyverse, Janitor and a new one, [Lubri
 **Task**: In the code block below, load the Tidyverse family of packages, the Janitor package, and the Lubridate package. If you've never loaded lubridate before, you'll need to install it first. You should be good at installing and loading packages at this point. If you have problems, Google it or look at previous labs. 
 
 ```{r}
-#install.packages('lubridate')
+install.packages('lubridate')
 library(tidyverse)
 library(janitor)
 library(lubridate)

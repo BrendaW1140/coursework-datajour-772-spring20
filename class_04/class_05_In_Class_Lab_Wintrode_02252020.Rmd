@@ -86,7 +86,7 @@ Now that the data is in, spend some time examining it.
 
 ``` {r}
 
-View(baltimore)
+#View(baltimore)
 
 #This crashed my R before. I had to restart the project. Skipping this time.
 ```
