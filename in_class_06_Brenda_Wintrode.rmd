@@ -104,6 +104,11 @@ key <- "4KwzCnE"
 Let's start by just getting the total pills and shipments for each county in the U.S. for each year.  
 
 ```{r}
+arcos_county_pills_per_year <- summarized_county_annual(key = key) %>%
+  clean_names()
+```
+
+```{r}
   options(scipen=999)
  
   ggplot(arcos_county_pills_per_year) +
@@ -113,10 +118,7 @@ Let's start by just getting the total pills and shipments for each county in the
 
 We're going to store it as an object called "arcos_county_pills_per_year".  We're going to use a function called "summarized_county_annual" and we're going to set the key as equal to the key we just stored.  
 
-```{r}
-arcos_county_pills_per_year <- summarized_county_annual(key = key) %>%
-  clean_names()
-```
+
 
 ### Q1: Total pills by year in Maryland
 
