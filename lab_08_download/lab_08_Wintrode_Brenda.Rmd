@@ -66,7 +66,7 @@ We're loading five packages today.
 **Task**: In the code block below, load the packages we'll need for today. 
 
 ```{r}
-install.packages('rvest')
+#install.packages('rvest')
 # Load Tidyverse, janitor and arcos, tidycensus, rvest
 # Use install.packages if necessary
 library(janitor)
@@ -118,8 +118,9 @@ mingo_downloaded <- read_tsv(mingo_url)
 Write the necessary code to download it directly from that URL and bring it into R as an object called average_county_pills_per_year. Remember, it's a CSV, not a TSV
 
 ```{r}
+avg_number_pills_by_county_url <- 'https://raw.githubusercontent.com/smussenden/spring20-data-journalism/master/labs/lab_05/data/county_pills_per_year.csv'
 
-
+avg_number_pills_by_county_downloaded <- read_csv(avg_number_pills_by_county_url)
 
 ```
 
@@ -206,7 +207,7 @@ This function pulls all the avaiable variables for 2012 from the acs, with data 
 
 ```{r}
 acs_variables <- load_variables(2012, "acs5")
-
+glimpse(acs_variables)
 ```
 
 Let's examine this table together.  Be sure to watch the video where I'll review how to select variables using the data browswer in R Studio. 
@@ -214,7 +215,10 @@ Let's examine this table together.  Be sure to watch the video where I'll review
 ***Task***: using a similar method as we used above to create a table of county by county median household income estimates, create a table with the total estimated population of people who identify as white only and no other race in each state in 2014. The name of the label you'll need is:  Estimate!!Total!!White alone. 
 
 ```{r}
+white_alone <- get_acs(geography = "state", 
+              variables="B02001_002", year=2014, geometry = FALSE )
 
+	
 ```
 
 We're just scratching the surface of what you can do with tidycensus.  There are variables on economics, race, demographics and so much more.  
@@ -273,8 +277,10 @@ Okay, it's in now, but it's still kind of a mess. In next week's lab, which is d
 ***Task***: On this page, https://www.cdc.gov/drugoverdose/data/analysis.html, there's a table of national opioid death rates by year from 2000 to 2016.  To see it, click Data Table below the map.  Using the method above, scrape it in and store it as an object called opioid_states_scrape.  
 
 ```{r}
-
-
+opioid_scrape_state <- read_html("https://www.cdc.gov/drugoverdose/data/analysis.html") %>%
+  html_nodes('table') %>%
+  html_table(header=1, fill=TRUE)  %>%
+  as.data.frame()
 ```
 
 Again, this will come in a little messy.  We'll clean it up in a future lab.
