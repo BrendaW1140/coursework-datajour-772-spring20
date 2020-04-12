@@ -74,7 +74,14 @@ We're also going to load one new package: [corrr](https://github.com/tidymodels/
 
 ```{r}
 
+#install.packages("corrr")
 # Load Tidyverse, janitor and arcos, tidycensus, scales and corrr
+library(tidycensus)
+library(tidyverse)
+library(arcos)
+library(janitor)
+library(scales)
+library(corrr)
 
 
 ```
@@ -300,11 +307,25 @@ Using this joined table, pills_population_income, get to work examining relation
 
 # Group into five buckets and calculate median household income and average pills per person
 
+pills_population_income %>%
+ ungroup() %>%
+ mutate(quintile = ntile(median_household_income, 5)) %>%
+ group_by(quintile) %>%
+ summarise(median_household_income = mean(median_household_income),
+            average_pills_per_person = mean(average_pills_per_person)) 
+
 
 ```
 
 ```{r}
 # Make a scatterplot with median household income on one axis, average pills per person on the other.  Each dot is a county. 
+ggplot(pills_population_income) +
+  geom_point(aes(average_pills_per_person, median_household_income)) +
+  geom_smooth(aes(average_pills_per_person, median_household_income), method = "lm", se = FALSE)  +
+  scale_y_continuous(labels = comma) +
+  scale_x_continuous(labels = comma)  +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x="Average Annual Pills Per Person", y="median_household_income", title="Pills by Income Level", caption = "Source: DEA ARCOS database, via Washington Post")
 
 ```
 
@@ -313,7 +334,20 @@ Using this joined table, pills_population_income, get to work examining relation
 
 # Calculate correlation coefficient
 
+pills_population_income %>%
+  ungroup() %>%
+  select(median_household_income, average_pills_per_person) %>%
+  correlate()
+
 # And calculate significance
+
+# Store a dataframe with two columns, death rate, and pills rate. 
+correlation_income_pills <- pills_population_income %>%
+  ungroup() %>%
+  select(median_household_income, average_pills_per_person) 
+
+# Test the relationship
+cor.test(correlation_income_pills$median_household_income, correlation_income_pills$average_pills_per_person)
 
 ```
 
