@@ -66,8 +66,11 @@ Five of these we've loaded previously:
 **Task**: In the code block below, load the packages we'll need for today.
 
 ```{r}
-
+install.packages("rvest")
 # Load Tidyverse, janitor and rvest
+library(tidyverse)
+library(janitor)
+library(rvest)
 
 
 ```
