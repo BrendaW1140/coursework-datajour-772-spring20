@@ -66,13 +66,13 @@ tests_per_state_population <- covid_data_working %>%
 ```{r}
 #What I have done and discovered so far
 
-#Since the coronovirus pandemic outbreak hit America, the lack of a strategic plan to contain the spread through mass testing has been at the forefront of a conversation on the nation's preparedness. Countries such as Iceland, South Korea and Thailand have managed to test wide swaths of their population in short amounts of time, and in doing so, have contained the spread and asymptomatic positive cases.
+#Since the coronovirus pandemic outbreak hit America, the lack of a national testing strategy has put the responsibiltiy on each state to carry out their own.  Countries such as Iceland, South Korea and Thailand have managed to test wide swaths of their population in short amounts of time, and in doing so, have contained the spread and asymptomatic positive cases.
 
-#My data analysis aims to assess the percentage of the population of 26 states and the District of Columbia 
+#My data analysis will find the percentage of the population that has been tested for 26 states and the District of Columbia. I will look for outlier states and examine further what may have happened and why.
 
 #My dataset includes all A-grade states and those B-grade states who had no potential conflict with the collection of total number of tests. For example, the CTP gave Massachusetts a B grade because they are including in the total test count people that were tested twice.
 
-# The Covid Tracking Project since early March has maintained a database of avalable covid-19 testing data from the 50 states, five territories and the District of Columbia from public health departments and news reports. Hundreds of volunteers from developers and journalists to researchers and designers staff the team.
+# The Covid Tracking Project since early March has maintained a database of avalable covid-19 testing data from the 50 states, five territories and the District of Columbia from public health departments and news reports. Hundreds of volunteers from developers and journalists to researchers and designers staff the team. The data has been cited the articles of national newspapers like The Washington Post.
 ```
 
   
