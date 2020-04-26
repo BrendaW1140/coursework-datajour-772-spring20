@@ -1,0 +1,69 @@
+
+
+
+```{r}
+# Load Tidyverse, janitor and USAboundaries, tidycensus
+install.packages("USAboundaries")
+library(tidycensus)
+library(tidyverse)
+library(janitor)
+library(USAboundaries)
+
+```
+
+
+
+```{r}
+#USAboundaries changed the state names to two-letter abbreviations. I needed to glimpse it here to see what the variable names were.
+glimpse(state_codes)
+```
+
+
+
+```{r}
+#Scraped the state by state data from The Covid Tracking Project.
+covid_data <- read_csv("https://covidtracking.com/api/v1/states/current.csv")
+```
+
+```{r}
+#Made all column names lower case and separated by underscores.
+#Selected just the total test results and state name columns.
+covid_data_working <- covid_data %>%
+  clean_names() %>%
+  select(state, total_test_results)
+  glimpse(covid_data_working)
+```
+
+```{r}
+#Loaded the census data API and teh state population variable code.
+census_api_key("549950d36c22ff16455fe196bbbd01d63cfbe6cf")
+#acs_variables <- load_variables(2017, "acs5" )
+
+state_population <- get_acs(geography = "state", 
+              variables="B01001_001")
+```
+
+```{r}
+#Cleaned the state population data. To get mutate to work, I had to take our Puerto Rico because USAboundaries wouldn't work on Puerto Rico.
+#Filtered out the states whose data grade was a C or below. Some B-grade states were filtered out because total test results were not per person, but instead per specimen or did not include private lab totals. States with B grades that were filtered out were Indiana, Iowa, Maine, Massachusetts, California.
+state_population_working <- state_population %>%
+ clean_names() %>%
+  filter(name != "Puerto Rico") %>% 
+  mutate(state = state_codes$state_abbr[state_codes$state_name==name]) %>%
+ filter(!(state %in% c("UT","VT","WY","IN","IA","MA","ME","CA","CO","CT","DE","FL","HI","ID","KS","MT","NE","NV","NH","NM","NC","ND","SD")))
+  
+``` 
+
+```{r}
+#Joined the total tests and state populations on state abbreviation.
+#Created a new column with a per state calculation of percent of poulation tested.
+tests_per_state_population <- covid_data_working %>%
+  inner_join(state_population_working, by=c("state" = "state")) %>%
+  mutate(percent_of_population_tested = (total_test_results/estimate)*100)
+  
+```
+
+```{r}
+#
+
+  
