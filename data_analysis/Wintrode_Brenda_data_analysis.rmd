@@ -3,7 +3,7 @@
 
 ```{r}
 # Load Tidyverse, janitor and USAboundaries, tidycensus
-install.packages("USAboundaries")
+#install.packages("USAboundaries")
 library(tidycensus)
 library(tidyverse)
 library(janitor)
