@@ -104,7 +104,7 @@ testing_percentage_map %>%
   ggplot(aes(fill = percent_of_population_tested)) +
   geom_sf(lwd = 0) +
   theme_map() +
-  labs(fill='Per capita testing',title="California, Texas have largest populations", subtitle = "2017 population, U.S. Census", caption = "Source: U.S. Census ACS") +
+  labs(fill='Percentage',title="Percentage of COVID-19 Tests Administered by State Population", subtitle = "2017 population, U.S. Census", caption = "Source: U.S. Census ACS and The Covid Tracking Project") +
   theme(legend.position="right") +
   scale_fill_viridis_c(option = "magma",labels = comma)
   
