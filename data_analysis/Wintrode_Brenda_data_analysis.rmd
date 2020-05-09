@@ -78,7 +78,7 @@ state_geodata <- get_acs(geography = "state",
 
 state_geodata_shifted <- get_acs(geography = "state",
               variables = "B01001_001", geometry = TRUE, shift_geo = TRUE)
-
+              
 ```
 
 ```{r}
@@ -89,10 +89,22 @@ print(head(state_geodata_shifted))
 
 ```{r}
 state_geodata_shifted %>%
-  ggplot(aes(fill = estimate)) +
+  clean_names()
+```
+
+
+``` {r}
+testing_percentage_map <- state_geodata_shifted %>%
+  inner_join(tests_per_state_population, by=c("GEOID" = "geoid"))
+
+```
+
+```{r}
+testing_percentage_map %>%
+  ggplot(aes(fill = percent_of_population_tested)) +
   geom_sf(lwd = 0) +
   theme_map() +
-  labs(fill='Population',title="California, Texas have largest populations", subtitle = "2017 population, U.S. Census", caption = "Source: U.S. Census ACS") +
+  labs(fill='Per capita testing',title="California, Texas have largest populations", subtitle = "2017 population, U.S. Census", caption = "Source: U.S. Census ACS") +
   theme(legend.position="right") +
   scale_fill_viridis_c(option = "magma",labels = comma)
   
@@ -101,11 +113,5 @@ options(scipen=999)
 ```
 
 ``` {r}
-mapview(state_geodata_shifted, zcol = "estimate", legend = TRUE)
-```
-
-``` {r}
-
-
-
+mapview(testing_percentage_map, zcol = "percent_of_population_tested", legend = TRUE)
 ```
