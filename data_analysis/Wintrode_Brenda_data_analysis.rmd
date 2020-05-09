@@ -50,7 +50,7 @@ state_population_working <- state_population %>%
  clean_names() %>%
   filter(name != "Puerto Rico") %>% 
   mutate(state = state_codes$state_abbr[state_codes$state_name==name]) %>%
- filter(!(state %in% c("UT","VT","WY","IN","IA","MA","ME","CA","CO","CT","DE","FL","HI","ID","KS","MT","NE","NV","NH","NM","NC","ND","SD")))
+ filter(!(state %in% c("ME","PA")))
   
 ``` 
 
