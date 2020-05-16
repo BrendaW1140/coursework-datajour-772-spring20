@@ -8,8 +8,11 @@ output:
     toc_depth: 3
     toc_float: true
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, paged.print=TRUE)
+```
 
-## Loading Libraries and Installing Needed Packages
+## Libraries and Packages
 
 ```{r}
 # Load Tidyverse, janitor and USAboundaries, tidycensus
@@ -32,7 +35,7 @@ library(ggthemes)
 glimpse(state_codes)
 ```
 
-##Loaded and cleaned The Covid Tracking Project API and U.S. Census Data and cleaned
+## Cleaned Data
 
 ```{r}
 #Scraped the state by state data from The Covid Tracking Project.
@@ -67,10 +70,10 @@ state_population_working <- state_population %>%
  clean_names() %>%
   filter(name != "Puerto Rico") %>% 
   mutate(state = state_codes$state_abbr[state_codes$state_name==name]) %>%
- filter(!(state %in% c("ME","PA","DE")))
+ filter(!(state %in% c("ME","PA")))
   
 ``` 
-##Inner Join to Calculate Tests Per Capita
+## Inner Join: Tests Per Capita
 
 *Joined the total tests and state populations on state abbreviation.
 *Created a new column with a per state calculation of percent of poulation tested.
@@ -84,7 +87,7 @@ tests_per_state_population <- covid_data_working %>%
   
 ```
 
-##Begin Map Making
+## Map Making
 ```{r}
 #Pulling in state geometry like we did in Lab 07.
 
@@ -110,7 +113,7 @@ state_geodata_shifted %>%
   clean_names()
 ```
 
-##Mapped Findings
+## Mapped Findings
 
 ``` {r}
 testing_percentage_map <- state_geodata_shifted %>%
@@ -131,7 +134,7 @@ testing_percentage_map %>%
 options(scipen=999)
 ```
 
-##Hover Map of Findings
+## Hover Map
 * According to The Covid Tracking Project data grades, Deleware, Pennsylvania and Maine were not tracking total testing
 
 ``` {r}
