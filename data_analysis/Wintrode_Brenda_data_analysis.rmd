@@ -1,5 +1,15 @@
+---
+title: "State Covid Testing Per Capita | Data Analysis"
+author: "Brenda Wintrode"
+date: "05/17/2020"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+---
 
-
+## Loading Libraries and Installing Needed Packages
 
 ```{r}
 # Load Tidyverse, janitor and USAboundaries, tidycensus
@@ -22,12 +32,14 @@ library(ggthemes)
 glimpse(state_codes)
 ```
 
-
+##Loaded and cleaned The Covid Tracking Project API and U.S. Census Data and cleaned
 
 ```{r}
 #Scraped the state by state data from The Covid Tracking Project.
 covid_data <- read_csv("https://covidtracking.com/api/v1/states/current.csv")
 ```
+
+
 
 ```{r}
 #Made all column names lower case and separated by underscores.
@@ -38,8 +50,9 @@ covid_data_working <- covid_data %>%
   glimpse(covid_data_working)
 ```
 
+
 ```{r}
-#Loaded the census data API and teh state population variable code.
+#Loaded the census data API and the state population variable code.
 census_api_key("549950d36c22ff16455fe196bbbd01d63cfbe6cf")
 #acs_variables <- load_variables(2017, "acs5" )
 
@@ -54,19 +67,24 @@ state_population_working <- state_population %>%
  clean_names() %>%
   filter(name != "Puerto Rico") %>% 
   mutate(state = state_codes$state_abbr[state_codes$state_name==name]) %>%
- filter(!(state %in% c("ME","PA")))
+ filter(!(state %in% c("ME","PA","DE")))
   
 ``` 
+##Inner Join to Calculate Tests Per Capita
+
+*Joined the total tests and state populations on state abbreviation.
+*Created a new column with a per state calculation of percent of poulation tested.
 
 ```{r}
-#Joined the total tests and state populations on state abbreviation.
-#Created a new column with a per state calculation of percent of poulation tested.
+
 tests_per_state_population <- covid_data_working %>%
   inner_join(state_population_working, by=c("state" = "state")) %>%
   mutate(percent_of_population_tested = (total_test_results/estimate)*100)
+ 
   
 ```
 
+##Begin Map Making
 ```{r}
 #Pulling in state geometry like we did in Lab 07.
 
@@ -92,6 +110,7 @@ state_geodata_shifted %>%
   clean_names()
 ```
 
+##Mapped Findings
 
 ``` {r}
 testing_percentage_map <- state_geodata_shifted %>%
@@ -112,6 +131,10 @@ testing_percentage_map %>%
 options(scipen=999)
 ```
 
+##Hover Map of Findings
+* According to The Covid Tracking Project data grades, Deleware, Pennsylvania and Maine were not tracking total testing
+
 ``` {r}
-mapview(testing_percentage_map, zcol = "percent_of_population_tested", legend = TRUE)
+mapview(testing_percentage_map, zcol = "percent_of_population_tested", legend = FALSE, legend.opacity=.1)
+
 ```
